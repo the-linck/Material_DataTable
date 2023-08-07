@@ -309,7 +309,7 @@ const DataTable = (props) => {
 			columns={columns}
 			label={label}
 			key={`pagination_table_${label}`}
-			{... PaginationComponent}
+			{... PaginationProps}
 		/>
 	]}</TableContainer>;
 };
