@@ -19,13 +19,13 @@ import TableRow from "@material-ui/core/TableRow";
  * item_column: string,
  * item: T,
  * }} DataCellProps
-*/
+ */
 
 /**
  * @template {Object<string,*>} T
-* @param {DataCellProps<T>} props 
-*/
-const DataCell = (props) => {
+ * @param {DataCellProps<T>} props 
+ */
+export const DataCell = (props) => {
 	const item_column = props.item_column;
 
 	return <TableCell
@@ -50,7 +50,7 @@ const DataCell = (props) => {
 /**
  * @param {DataColumnsProps} props 
  */
-const DataColumns = (props) => {
+export const DataColumns = (props) => {
 	const Row = [];
 	const columns = props.columns;
 
@@ -104,7 +104,7 @@ const DataColumns = (props) => {
  * @returns {null}
  */
 // eslint-disable-next-line no-unused-vars
-const DataFooter = (props) => {
+export const DataFooter = (props) => {
 	return null;
 };
 
@@ -119,7 +119,7 @@ const DataFooter = (props) => {
  * @param {DataPaginationProps} props 
  */
 // eslint-disable-next-line no-unused-vars
-const DataPagination = (props) => {
+export const DataPagination = (props) => {
 	return null;
 };
 
@@ -136,7 +136,7 @@ const DataPagination = (props) => {
  * @template T
  * @param {DataRowProps<T>} props 
  */
-const DataRow = (props) => {
+export const DataRow = (props) => {
 	const Row = [];
 
 	const columns = props.columns;
