@@ -153,6 +153,7 @@ export const DataRow = (props) => {
 					item_id={item_id}
 					key={`${item_id}_${item_column}`}
 					item={item}
+					{... props.CellProps}
 				/>
 			);
 		}
@@ -160,10 +161,11 @@ export const DataRow = (props) => {
 		for (const item_column in columns) {
 			Row.push(
 				<CellComponent
-				item_column={item_column}
+					item_column={item_column}
 					item_id={item_id}
 					key={`${item_id}_${item_column}`}
 					item={item}
+					{... props.CellProps}
 				/>
 			);
 		}
@@ -182,16 +184,16 @@ export const DataRow = (props) => {
  * label: string,
  * data: T[]|Object<string,T>,
  * CellComponent?: function(DataCellProps<T>) : JSX.Element | React.Component<DataCellProps<T>>,
- * CellProps: Object<string,*>,
+ * CellProps?: Object<string,*>,
  * HeadComponent?: function(DataColumnsProps) : JSX.Element | React.Component<DataColumnsProps>,
- * HeadProps: Object<string,*>,
+ * HeadProps?: Object<string,*>,
  * FooterComponent?: function(DataFooterProps) : JSX.Element | React.Component<DataFooterProps>,
- * FooterProps: Object<string,*>,
+ * FooterProps?: Object<string,*>,
  * PaginationComponent?: function(DataPaginationProps) : JSX.Element | React.Component<DataPaginationProps>,
- * PaginationProps: Object<string,*>,
+ * PaginationProps?: Object<string,*>,
  * RowComponent?: function(DataRowProps<T>) : JSX.Element | React.Component<DataRowProps<T>>,
- * RowProps: Object<string,*>,
-* }} props 
+ * RowProps?: Object<string,*>,
+ * }} props 
  */
 const DataTable = (props) => {
 	if (props.data === null) {
