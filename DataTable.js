@@ -129,7 +129,8 @@ export const DataPagination = (props) => {
  * item_id: number|string,
  * item: T,
  * CellComponent: function(DataCellProps<T>) : JSX.Element | React.Component<DataCellProps<T>>,
-* }} DataRowProps
+ * CellProps: Object<string,*>,
+ * }} DataRowProps
  */
 
 /**
@@ -181,11 +182,16 @@ export const DataRow = (props) => {
  * label: string,
  * data: T[]|Object<string,T>,
  * CellComponent?: function(DataCellProps<T>) : JSX.Element | React.Component<DataCellProps<T>>,
+ * CellProps: Object<string,*>,
  * HeadComponent?: function(DataColumnsProps) : JSX.Element | React.Component<DataColumnsProps>,
+ * HeadProps: Object<string,*>,
  * FooterComponent?: function(DataFooterProps) : JSX.Element | React.Component<DataFooterProps>,
+ * FooterProps: Object<string,*>,
  * PaginationComponent?: function(DataPaginationProps) : JSX.Element | React.Component<DataPaginationProps>,
+ * PaginationProps: Object<string,*>,
  * RowComponent?: function(DataRowProps<T>) : JSX.Element | React.Component<DataRowProps<T>>,
- * }} props 
+ * RowProps: Object<string,*>,
+* }} props 
  */
 const DataTable = (props) => {
 	if (props.data === null) {
@@ -210,6 +216,9 @@ const DataTable = (props) => {
 	} else {
 		CellComponent = DataCell;
 	}
+	
+	const RowProps = props.RowProps || {};
+	const CellProps = props.CellProps || {};
 	if (Array.isArray(data)) {
 		let item_key = 0;
 		for (const value of data) {
@@ -220,6 +229,8 @@ const DataTable = (props) => {
 					key={item_key}
 					item={value}
 					CellComponent={CellComponent}
+					CellProps={CellProps}
+					{... RowProps}
 				/>
 			);
 
@@ -237,6 +248,7 @@ const DataTable = (props) => {
 					key={item_key}
 					item={value}
 					CellComponent={CellComponent}
+					{... RowProps}
 				/>
 			);
 		}
@@ -248,31 +260,37 @@ const DataTable = (props) => {
 	} else {
 		HeadComponent = DataColumns;
 	}
+	const HeadProps = props.HeadProps || {};
+
 	let FooterComponent;
 	if ("FooterComponent" in props) {
 		FooterComponent = props.FooterComponent;
 	} else {
 		FooterComponent = DataFooter;
 	}
+	const FooterProps = props.FooterProps || {};
+
 	let PaginationComponent;
 	if ("PaginationComponent" in props) {
 		PaginationComponent = props.PaginationComponent;
 	} else {
 		PaginationComponent = DataPagination;
 	}
+	const PaginationProps = props.PaginationProps || {};
 
 	return <TableContainer
 		component={Paper}
 	>{[
 		<Table
-		aria-label={label}
-		stickyHeader
-		key={`table_${label}`}
+			aria-label={label}
+			stickyHeader
+			key={`table_${label}`}
 		>{[
 			<HeadComponent
 				columns={columns}
 				label={label}
 				key={`header_table_${label}`}
+				{... HeadProps}
 			/>,
 
 			<TableBody key={`body_table_${label}`}>{
@@ -283,6 +301,7 @@ const DataTable = (props) => {
 				columns={columns}
 				label={label}
 				key={`footer_table_${label}`}
+				{... FooterProps}
 			/>
 		]}</Table>,
 
@@ -290,6 +309,7 @@ const DataTable = (props) => {
 			columns={columns}
 			label={label}
 			key={`pagination_table_${label}`}
+			{... PaginationComponent}
 		/>
 	]}</TableContainer>;
 };

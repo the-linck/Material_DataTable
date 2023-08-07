@@ -82,9 +82,10 @@ export CustomComponent;
 ##  Extending the component
 
 Using the default DataTable component, the Data will be displayed with only a standard Header and Body, with no pagination or footer.  
-To customize the layout, there are 5 optional props:
+Using optional props, the following customizations are supported:
 
-### `HeadComponent` Custom Header
+### Custom Header
+#### `HeadComponent`
 
 Component, Class or Functional, used to create a custom header for the table.  
 The component will receive the following props:
@@ -95,9 +96,15 @@ List of columns that should be displayed.
 * `label`: string
 Acessibility label for the table.
 
+#### `HeadProps`
+
+Props to be passed down to a custom HeadComponent.
 
 
-### `FooterComponent` Custom Footer
+
+
+### Custom Footer
+#### `FooterComponent` 
 
 Component, Class or Functional, used to create a custom footer for the table. It's required to have a footer on the table.  
 The component will receive the following props:
@@ -108,9 +115,14 @@ List of columns that should be displayed.
 * `label`: string
 Acessibility label for the table.
 
+#### `FooterProps`
+
+Props to be passed down to a custom FooterComponent.
 
 
-### `PaginationComponent` Custom Pagination
+
+### Custom Pagination
+#### `PaginationComponent`
 
 Component, Class or Functional, used to create a custom pagination for the table. It's required to have a pagination on the table.  
 The component will receive the following props:
@@ -121,9 +133,14 @@ List of columns that should be displayed.
 * `label`: string
 Acessibility label for the table.
 
+#### `PaginationProps`
+
+Props to be passed down to a custom PaginationComponent.
 
 
-### `CellComponent` Custom Cells
+
+### Custom Cells
+#### `CellComponent`
 
 Component, Class or Functional, used to create a cell on the table. 
 The component will receive the following props:
@@ -137,9 +154,14 @@ Column to be shown in this cell.
 * `item`: Row
 Current Row of que Data.
 
+#### `CellProps`
+
+Props to be passed down to a custom CellComponent.
 
 
-### `RowComponent` Custom Row
+
+### Custom Row
+#### `RowComponent`
 
 Component, Class or Functional, to be used to create a cell on the table. 
 The component will receive the following props:
@@ -153,3 +175,7 @@ Current Row of que Data.
 * `CellComponent`: Component
 The component used to create a cell on the table.  
 If a custom CellComponent is provided to the DataTable, it will be the same here, otherwise it will be the default component.
+
+#### `RowProps`
+
+Props to be passed down to a custom RowComponent.
