@@ -1,4 +1,4 @@
-# Material DataTable
+# Material DataTable (TypeScript version)
 
 Stateless and extensible Table component to display a list of plain javascript objects.  
 It's main focus is to simplify/standadize code for tables.
@@ -9,8 +9,11 @@ It's main focus is to simplify/standadize code for tables.
 
 * ReactJS  
     Back-bone of the project  
+* TypeScript
+* TSX (JSX + TypeScript)
 * **Material UI**  
     For the Material UI Table-related components
+
 
 
 ## Data Format

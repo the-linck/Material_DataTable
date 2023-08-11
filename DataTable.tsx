@@ -11,46 +11,33 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
 
+export type Row = Record<string, any>;
+export interface DataCellProps<T> {
+	item_id: string,
+	item_column: string,
+	item: T,
+}
 
-/**
- * @template {Object<string,*>} T
- * @typedef {{
- * item_id: string,
- * item_column: string,
- * item: T,
- * }} DataCellProps
- */
-
-/**
- * @template {Object<string,*>} T
- * @param {DataCellProps<T>} props 
- */
-export const DataCell = (props) => {
+export const DataCell = <T,>(props : DataCellProps<T>) => {
 	const item_column = props.item_column;
 
 	return <TableCell
 		data-column={item_column}
 	>{
-		props.item[item_column]
+		(props.item as any)[item_column]
 	}</TableCell>;
 };
 
-/**
- * @typedef {{
- * columns: string[]|Object<string,string>,
- * }} ColumnsProp
- */
 
-/**
- * @typedef {ColumnsProp & {
- * label: string,
- * }} DataColumnsProps
- */
 
-/**
- * @param {DataColumnsProps} props 
- */
-export const DataColumns = (props) => {
+export interface ColumnsProp {
+	columns: string[]|Record<string,string>,
+}
+export interface DataHeaderProps extends ColumnsProp {
+	label: string,
+}
+
+export const DataHeader = (props: DataHeaderProps) => {
 	const Row = [];
 	const columns = props.columns;
 
@@ -92,52 +79,41 @@ export const DataColumns = (props) => {
 	</TableHead>;
 };
 
-/**
- * @typedef {ColumnsProp & {
-* label: string,
-* }} DataFooterProps
-*/
+
+
+export interface DataFooterProps extends ColumnsProp {
+	label: string,
+}
 /**
  * Dummy component to not render a footer.
- *
- * @param {DataFooterProps} props 
- * @returns {null}
  */
 // eslint-disable-next-line no-unused-vars
-export const DataFooter = (props) => {
+export const DataFooter = (props: DataFooterProps) => {
 	return null;
 };
 
-/**
- * @typedef {ColumnsProp & {
-* label: string,
-* }} DataPaginationProps
-*/
+
+
+export interface DataPaginationProps extends ColumnsProp {
+	label: string,
+}
 /**
  * Dummy component to not render pagination.
- * 
- * @param {DataPaginationProps} props 
  */
 // eslint-disable-next-line no-unused-vars
-export const DataPagination = (props) => {
+export const DataPagination = (props : DataPaginationProps) => {
 	return null;
 };
 
-/**
- * @template {Object<string,*>} T
- * @typedef {ColumnsProp & {
- * item_id: number|string,
- * item: T,
- * CellComponent: function(DataCellProps<T>) : JSX.Element | React.Component<DataCellProps<T>>,
- * CellProps: Object<string,*>,
- * }} DataRowProps
- */
 
-/**
- * @template T
- * @param {DataRowProps<T>} props 
- */
-export const DataRow = (props) => {
+
+export interface DataRowProps<T> extends ColumnsProp {
+	item_id: number|string,
+	item: T,
+	CellComponent: React.ComponentType<DataCellProps<T>>,
+	CellProps: Record<string, any>,
+}
+export const DataRow = <T,>(props : DataRowProps<T>) => {
 	const Row = [];
 
 	const columns = props.columns;
@@ -150,7 +126,7 @@ export const DataRow = (props) => {
 			Row.push(
 				<CellComponent
 					item_column={item_column}
-					item_id={item_id}
+					item_id={item_id as string}
 					key={`${item_id}_${item_column}`}
 					item={item}
 					{... props.CellProps}
@@ -162,7 +138,7 @@ export const DataRow = (props) => {
 			Row.push(
 				<CellComponent
 					item_column={item_column}
-					item_id={item_id}
+					item_id={item_id as string}
 					key={`${item_id}_${item_column}`}
 					item={item}
 					{... props.CellProps}
@@ -178,24 +154,21 @@ export const DataRow = (props) => {
 
 
 
-/**
- * @template {Object<string,*>} T
- * @param {ColumnsProp & {
- * label: string,
- * data: T[]|Object<string,T>,
- * CellComponent?: function(DataCellProps<T>) : JSX.Element | React.Component<DataCellProps<T>>,
- * CellProps?: Object<string,*>,
- * HeadComponent?: function(DataColumnsProps) : JSX.Element | React.Component<DataColumnsProps>,
- * HeadProps?: Object<string,*>,
- * FooterComponent?: function(DataFooterProps) : JSX.Element | React.Component<DataFooterProps>,
- * FooterProps?: Object<string,*>,
- * PaginationComponent?: function(DataPaginationProps) : JSX.Element | React.Component<DataPaginationProps>,
- * PaginationProps?: Object<string,*>,
- * RowComponent?: function(DataRowProps<T>) : JSX.Element | React.Component<DataRowProps<T>>,
- * RowProps?: Object<string,*>,
- * }} props 
- */
-const DataTable = (props) => {
+interface DataTableProps<T> extends ColumnsProp {
+	label: string,
+	data: T[]|Record<string,T>,
+	CellComponent?: React.ComponentType<DataCellProps<T>>,
+	CellProps?: Record<string, any>,
+	HeadComponent?: React.ComponentType<DataHeaderProps>,
+	HeadProps?: Record<string, any>,
+	FooterComponent?: React.ComponentType<DataFooterProps>,
+	FooterProps?: Record<string, any>,
+	PaginationComponent?: React.ComponentType<DataPaginationProps>,
+	PaginationProps?: Record<string, any>,
+	RowComponent?: React.ComponentType<DataRowProps<T>>,
+	RowProps?: Record<string, any>,
+}
+const DataTable = <T,>(props: DataTableProps<T>) => {
 	if (props.data === null) {
 		return null;
 	}
@@ -206,14 +179,14 @@ const DataTable = (props) => {
 
 	const Rows = [];
 
-	let RowComponent;
-	if ("RowComponent" in props) {
+	let RowComponent : React.ComponentType<DataRowProps<T>>;
+	if (props.RowComponent !== undefined) {
 		RowComponent = props.RowComponent;
 	} else {
 		RowComponent = DataRow;
 	}
-	let CellComponent;
-	if ("CellComponent" in props) {
+	let CellComponent : React.ComponentType<DataCellProps<T>>;
+	if (props.CellComponent !== undefined) {
 		CellComponent = props.CellComponent;
 	} else {
 		CellComponent = DataCell;
@@ -257,24 +230,24 @@ const DataTable = (props) => {
 		}
 	}
 
-	let HeadComponent;
-	if ("HeadComponent" in props) {
+	let HeadComponent : React.ComponentType<DataHeaderProps>;
+	if (props.HeadComponent !== undefined) {
 		HeadComponent = props.HeadComponent;
 	} else {
-		HeadComponent = DataColumns;
+		HeadComponent = DataHeader;
 	}
 	const HeadProps = props.HeadProps || {};
 
-	let FooterComponent;
-	if ("FooterComponent" in props) {
+	let FooterComponent : React.ComponentType<DataFooterProps>;
+	if (props.FooterComponent !== undefined) {
 		FooterComponent = props.FooterComponent;
 	} else {
 		FooterComponent = DataFooter;
 	}
 	const FooterProps = props.FooterProps || {};
 
-	let PaginationComponent;
-	if ("PaginationComponent" in props) {
+	let PaginationComponent : React.ComponentType<DataPaginationProps>;
+	if (props.PaginationComponent !== undefined) {
 		PaginationComponent = props.PaginationComponent;
 	} else {
 		PaginationComponent = DataPagination;
