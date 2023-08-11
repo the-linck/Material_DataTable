@@ -250,6 +250,7 @@ const DataTable = (props) => {
 					key={item_key}
 					item={value}
 					CellComponent={CellComponent}
+					CellProps={CellProps}
 					{... RowProps}
 				/>
 			);
